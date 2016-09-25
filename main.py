@@ -213,8 +213,7 @@ def read_points(path):
 
 
 
-def main():
-    path = 'images/'
+def merge_images(path='images/'):
     w, h = 600, 600
 
 
@@ -222,7 +221,7 @@ def main():
 
     images = []  # the original images
     for filepath in os.listdir(path):
-        if filepath.endswith(".jpg"):
+        if any([filepath.endswith(ext) for ext in ['.jpg', '.png', '.jpeg', '.gif']]):
             fname = os.path.join(path, filepath)
             img = cv2.imread(fname)
             images.append(img)
@@ -297,12 +296,10 @@ def main():
 
 
     output_img = output_img / num_images
-    output = np.float32(output_img) / 255.0
-    cv2.imshow('Averaged', output)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    return output
+    output_visual = np.float32(output_img) / 255.0
+    return output_img
 
 if __name__ == '__main__':
-    main()
+    img = merge_images(path='images/')
+    cv2.imwrite("fin.jpg", img)
 
